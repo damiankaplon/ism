@@ -1,0 +1,31 @@
+plugins {
+    id 'maven-publish'
+}
+
+version '1.0'
+
+dependencies {
+    implementation 'com.itextpdf:itextpdf:5.5.13.3'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    baseName = project.name
+
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Fat Jar',
+                'Implementation-Version': project.version
+    }
+
+    from {
+        project(':domain').configurations.runtimeClasspath.collect {
+            file -> project.zipTree file
+        }
+    }
+}
