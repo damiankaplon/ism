@@ -29,3 +29,18 @@ allprojects {
 		compileOnly 'org.projectlombok:lombok:1.18.24'
 	}
 }
+
+jar {
+
+	manifest {
+		attributes 'Implementation-Title': 'Gradle Fat Jar',
+				'Main-Class': 'pl.damiankaplon.ism.system.System',
+				'Implementation-Version': project.version
+	}
+
+	from {
+		project.configurations.runtimeClasspath.collect {
+			file -> project.zipTree file
+		}
+	}
+}

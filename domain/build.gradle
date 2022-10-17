@@ -14,18 +14,3 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-jar {
-    baseName = project.name
-
-    manifest {
-        attributes 'Implementation-Title': 'Gradle Fat Jar',
-                'Implementation-Version': project.version
-    }
-
-    from {
-        project(':domain').configurations.runtimeClasspath.collect {
-            file -> project.zipTree file
-        }
-    }
-}

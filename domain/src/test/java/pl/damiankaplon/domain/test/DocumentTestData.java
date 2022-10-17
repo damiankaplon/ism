@@ -1,4 +1,4 @@
-package pl.damiankaplon;
+package pl.damiankaplon.domain.test;
 
 import pl.damiankaplon.domain.Document;
 import pl.damiankaplon.domain.ISMException;
@@ -7,7 +7,7 @@ import pl.damiankaplon.domain.Term;
 public class DocumentTestData {
     public static Document MOCK_DOC_1 = new Document() {
         @Override
-        public int countOccurrences(Term term) throws                           ISMException {
+        public int countOccurrences(Term term) throws ISMException {
             return 5;
         }
 

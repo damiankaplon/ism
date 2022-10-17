@@ -1,8 +1,8 @@
-package pl.damiankaplon.unit;
+package pl.damiankaplon.domain.test.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.damiankaplon.DocumentTestData;
+import pl.damiankaplon.domain.test.DocumentTestData;
 import pl.damiankaplon.domain.Document;
 import pl.damiankaplon.domain.ISMException;
 import pl.damiankaplon.domain.Term;

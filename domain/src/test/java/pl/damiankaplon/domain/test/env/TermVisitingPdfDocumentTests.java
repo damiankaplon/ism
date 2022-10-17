@@ -1,4 +1,4 @@
-package pl.damiankaplon.env;
+package pl.damiankaplon.domain.test.env;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
