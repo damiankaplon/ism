@@ -37,4 +37,5 @@ class EuklidesDistanceMatrixCalculatorTests {
             Assertions.assertEquals(0, distances.distancesTo().get(doc).intValue());
         }
     }
+
 }
