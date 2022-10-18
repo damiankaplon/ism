@@ -32,7 +32,7 @@ public class System {
 
     private static void printEuklidesDistanceMatrix(Set<Document> documents, List<Term> terms) throws ISMException {
         java.lang.System.out.print("\n Euklides: \n");
-        final var euklidesDistanceMatrix = DistanceMatrixCalculator.EuklidesMatrixCalculator();
+        final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklidesMatrixCalculator();
         final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs(documents, new ArrayList<>(terms));
         for (var distances : distancesMatrix) {
             java.lang.System.out.print(distances.doc().getName().name() + " -> [");

@@ -8,7 +8,7 @@ public interface DistanceMatrixCalculator {
     record Distances(Document doc, LinkedHashMap<Document, Double> distancesTo){}
     Set<Distances> calcDistancesBetweenDocs(Set<Document> docs, ArrayList<Term> terms) throws ISMException;
 
-    static DistanceMatrixCalculator EuklidesMatrixCalculator() {
+    static DistanceMatrixCalculator euklidesMatrixCalculator() {
         return new EuklidesDistanceMatrixCalculator();
     }
 }

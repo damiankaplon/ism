@@ -13,7 +13,7 @@ class TermVisitingDocumentTests {
     void afterVisitingDocumentReturnsProperOccurrencesValue() throws ISMException {
         //GIVEN
         Term term = new Term("disease");
-        Document document = DocumentTestData.MOCK_DOC_1;
+        Document document = DocumentTestData.MOCK_DOC();
         int termOccurrences = document.countOccurrences(term);
         //WHEN
         term.visit(document);
@@ -26,7 +26,7 @@ class TermVisitingDocumentTests {
     void afterVisitingMultipleUniqueDocumentsReturnsProperOccurrencesValue() throws ISMException {
         //GIVEN
         Term term = new Term("disease");
-        Document document1 = DocumentTestData.MOCK_DOC_1;
+        Document document1 = DocumentTestData.MOCK_DOC();
         Document document2 = DocumentTestData.MOCK_DOC_2;
 
         final int termOccurrences1 = document1.countOccurrences(term);
