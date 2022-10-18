@@ -19,10 +19,10 @@ public class System {
                 .toList();
 
         for (final Term term : terms) {
-            java.lang.System.out.print(term.value + "->[");
+            java.lang.System.out.printf("%-12s ->[", term.value);
             for (Document doc : documents) {
                 term.visit(doc);
-                java.lang.System.out.print(doc.getName().name() + ":" + term.getOccurrences(doc.getName()) + ", ");
+                java.lang.System.out.printf("%-3s: %-5d, ", doc.getName().name(), term.getOccurrences(doc.getName()));
             }
             java.lang.System.out.print("]\n");
         }
@@ -31,15 +31,15 @@ public class System {
     }
 
     private static void printEuklidesDistanceMatrix(Set<Document> documents, List<Term> terms) throws ISMException {
+        java.lang.System.out.print("\n Euklides: \n");
         final var euklidesDistanceMatrix = DistanceMatrixCalculator.EuklidesMatrixCalculator();
         final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs(documents, new ArrayList<>(terms));
         for (var distances : distancesMatrix) {
-            java.lang.System.out.print(distances.doc().getName().name() + "->");
+            java.lang.System.out.print(distances.doc().getName().name() + " -> [");
             for (var key : distances.distancesTo().keySet()) {
-                java.lang.System.out.print(key.getName().name() + ": ");
-                java.lang.System.out.print(distances.distancesTo().get(key) + ", ");
+                java.lang.System.out.printf("%-3s: %-8.2f, ", key.getName().name(), distances.distancesTo().get(key));
             }
-            java.lang.System.out.print("\n");
+            java.lang.System.out.print("]\n");
         }
     }
 

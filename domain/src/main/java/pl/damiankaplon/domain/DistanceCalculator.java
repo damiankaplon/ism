@@ -12,8 +12,4 @@ abstract class DistanceCalculator {
     final ArrayList<Term> terms;
     abstract double distance() throws ISMException;
 
-    public static DistanceCalculator euklides(DocsPair docsPair, ArrayList<Term> terms) {
-        return new EuklidesCalculator(docsPair, terms);
-    }
-
 }

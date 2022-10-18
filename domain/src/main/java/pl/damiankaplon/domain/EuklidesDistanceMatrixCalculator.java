@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class EuklidesDistanceMatrixCalculator implements DistanceMatrixCalculator {
+class EuklidesDistanceMatrixCalculator implements DistanceMatrixCalculator {
 
     @Override
     public Set<Distances> calcDistancesBetweenDocs(Set<Document> docs, ArrayList<Term> terms) throws ISMException {
