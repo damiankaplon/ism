@@ -2,21 +2,20 @@ package pl.damiankaplon.domain;
 
 import java.util.ArrayList;
 
-final class EuklidesCalculator extends DistanceCalculator {
+final class ManhatanCalculator extends DistanceCalculator {
 
-    public EuklidesCalculator(ArrayList<Term> terms) {
+    ManhatanCalculator(ArrayList<Term> terms) {
         super(terms);
     }
-
     @Override
-    double distanceBetween(DocsPair docsPair) throws ISMException {
+    double distanceBetween(final DocsPair docsPair) throws ISMException {
         var sum = 0d;
         for (Term term : super.terms) {
             var diff = Math.abs(
                     term.getOccurrences(docsPair.doc1().getName()) - term.getOccurrences(docsPair.doc2().getName())
             );
-            sum += Math.pow(diff, 2);
+            sum += diff;
         }
-        return Math.sqrt(sum);
+        return sum;
     }
 }

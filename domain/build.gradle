@@ -1,5 +1,6 @@
 plugins {
     id 'maven-publish'
+    id 'com.adarshr.test-logger' version '3.2.0'
 }
 
 version '1.0'
@@ -14,4 +15,24 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+testlogger {
+    theme 'standard'
+    showExceptions true
+    showStackTraces true
+    showFullStackTraces false
+    showCauses true
+    slowThreshold 2000
+    showSummary true
+    showSimpleNames false
+    showPassed true
+    showSkipped true
+    showFailed true
+    showOnlySlow false
+    showStandardStreams false
+    showPassedStandardStreams true
+    showSkippedStandardStreams true
+    showFailedStandardStreams true
+    logLevel 'lifecycle'
 }

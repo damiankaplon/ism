@@ -7,9 +7,7 @@ import java.util.ArrayList;
 abstract class DistanceCalculator {
 
     record DocsPair(Document doc1, Document doc2){}
-
-    final DocsPair docsPair;
     final ArrayList<Term> terms;
-    abstract double distance() throws ISMException;
+    abstract double distanceBetween(final DocsPair docsPair) throws ISMException;
 
 }

@@ -1,11 +1,10 @@
 package pl.damiankaplon.ism.system;
 
+import com.google.common.collect.Lists;
 import pl.damiankaplon.domain.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 public class System {
 
@@ -13,11 +12,12 @@ public class System {
         final var consoleArgsParser = new ConsoleArgsParser(args);
         final var docLinks = consoleArgsParser.parseDocumentsLinks();
         final var documents = generateDocumentsFromLinks(docLinks.toArray(new String[0]));
-        final var terms = consoleArgsParser.parseTermsValues()
+        final var terms = Lists.newArrayList(
+                consoleArgsParser.parseTermsValues()
                 .stream()
                 .map(Term::new)
-                .toList();
-
+                .toList()
+        );
         for (final Term term : terms) {
             java.lang.System.out.printf("%-12s ->[", term.value);
             for (Document doc : documents) {
@@ -30,10 +30,10 @@ public class System {
         printEuklidesDistanceMatrix(documents, terms);
     }
 
-    private static void printEuklidesDistanceMatrix(Set<Document> documents, List<Term> terms) throws ISMException {
+    private static void printEuklidesDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
         java.lang.System.out.print("\n Euklides: \n");
-        final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklidesMatrixCalculator();
-        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs(documents, new ArrayList<>(terms));
+        final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklides(documents, terms);
+        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
         for (var distances : distancesMatrix) {
             java.lang.System.out.print(distances.doc().getName().name() + " -> [");
             for (var key : distances.distancesTo().keySet()) {
@@ -43,7 +43,7 @@ public class System {
         }
     }
 
-    static Set<Document> generateDocumentsFromLinks(String[] links) throws ISMException {
+    static LinkedHashSet<Document> generateDocumentsFromLinks(String[] links) throws ISMException {
         final var docs = new LinkedHashSet<Document>();
         for (int i = 0; i < links.length; i++) {
             docs.add(DocumentFactory.createDocument("D" + i, links[i]));

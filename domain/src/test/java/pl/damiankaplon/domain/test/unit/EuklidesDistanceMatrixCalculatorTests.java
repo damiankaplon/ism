@@ -30,7 +30,7 @@ class EuklidesDistanceMatrixCalculatorTests {
             }
         }
         final var distancesMatrix =
-                DistanceMatrixCalculator.euklidesMatrixCalculator().calcDistancesBetweenDocs(docsSet, testTerms);
+                DistanceMatrixCalculator.euklides(docsSet, testTerms).calcDistancesBetweenDocs();
         //THEN
         for (final var distances : distancesMatrix) {
             final var doc = distances.doc();
