@@ -2,10 +2,15 @@ package pl.damiankaplon.domain;
 
 import java.util.ArrayList;
 
-final class EuklidesCalculator extends DistanceCalculator {
+final class EuklidesZoomCalculator extends DistanceCalculator {
 
-    public EuklidesCalculator(ArrayList<Term> terms) {
+    private final int power;
+    private final int sqrt;
+
+    public EuklidesZoomCalculator(ArrayList<Term> terms, int zoom, int sqrt) {
         super(terms);
+        this.power = zoom;
+        this.sqrt = sqrt;
     }
 
     @Override
@@ -14,8 +19,8 @@ final class EuklidesCalculator extends DistanceCalculator {
         for (Term term : super.terms) {
             var diff =
                     term.getOccurrences(docsPair.doc1().getName()) - term.getOccurrences(docsPair.doc2().getName());
-            sum += Math.pow(diff, 2);
+            sum += Math.pow(diff, this.power);
         }
-        return Math.sqrt(sum);
+        return Math.pow(sum, ((float)1/this.sqrt));
     }
 }

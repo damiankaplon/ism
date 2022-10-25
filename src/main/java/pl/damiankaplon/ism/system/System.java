@@ -26,13 +26,56 @@ public class System {
             }
             java.lang.System.out.print("]\n");
         }
-
         printEuklidesDistanceMatrix(documents, terms);
+        printEuklidesZoomDistanceMatrix(documents, terms, 2, 3);
+        printManhatanDistanceMatrix(documents, terms);
+        printCzebyszewDistanceMatrix(documents, terms);
     }
-
     private static void printEuklidesDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
         java.lang.System.out.print("\n Euklides: \n");
         final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklides(documents, terms);
+        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
+        for (var distances : distancesMatrix) {
+            java.lang.System.out.print(distances.doc().getName().name() + " -> [");
+            for (var key : distances.distancesTo().keySet()) {
+                java.lang.System.out.printf("%-3s: %-8.2f, ", key.getName().name(), distances.distancesTo().get(key));
+            }
+            java.lang.System.out.print("]\n");
+        }
+    }
+
+    private static void
+    printEuklidesZoomDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms, int pow, int sqrt)
+            throws ISMException {
+        java.lang.System.out.printf("\n Euklides zoom pow %d, sqrt %d : \n", pow, sqrt);
+        final var euklidesDistanceMatrix =
+                DistanceMatrixCalculator.euklidesZoom(documents, terms, pow, sqrt);
+        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
+        for (var distances : distancesMatrix) {
+            java.lang.System.out.print(distances.doc().getName().name() + " -> [");
+            for (var key : distances.distancesTo().keySet()) {
+                java.lang.System.out.printf("%-3s: %-8.2f, ", key.getName().name(), distances.distancesTo().get(key));
+            }
+            java.lang.System.out.print("]\n");
+        }
+    }
+
+    private static void printManhatanDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
+        java.lang.System.out.print("\n Manhatan \n");
+        final var euklidesDistanceMatrix = DistanceMatrixCalculator.manhatan(documents, terms);
+        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
+        for (var distances : distancesMatrix) {
+            java.lang.System.out.print(distances.doc().getName().name() + " -> [");
+            for (var key : distances.distancesTo().keySet()) {
+                java.lang.System.out.printf("%-3s: %-8.2f, ", key.getName().name(), distances.distancesTo().get(key));
+            }
+            java.lang.System.out.print("]\n");
+        }
+    }
+
+    private static void printCzebyszewDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
+        java.lang.System.out.print("\n Czebyszew \n");
+        final var euklidesDistanceMatrix = DistanceMatrixCalculator.czebyszew(documents, terms);
         final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
         for (var distances : distancesMatrix) {
             java.lang.System.out.print(distances.doc().getName().name() + " -> [");

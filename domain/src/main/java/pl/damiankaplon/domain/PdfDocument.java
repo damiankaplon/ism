@@ -2,38 +2,38 @@ package pl.damiankaplon.domain;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedList;
+import java.util.List;
 
-@RequiredArgsConstructor
 final class PdfDocument implements Document {
 
     public final Name name;
-    private final Path pdfPath;
+    private final List<String> pages = new LinkedList<>();
 
-    @Override
-    public int countOccurrences(Term term) throws ISMException {
-        int occurances = 0;
+    PdfDocument(Name name, Path pdfPath) {
+        this.name = name;
         try {
             PdfReader reader = new PdfReader(pdfPath.toAbsolutePath().toString());
-            var pages = new LinkedList<String>();
             for (int pageNo = 1; pageNo <= reader.getNumberOfPages(); pageNo++) {
                 String textFromPage = PdfTextExtractor.getTextFromPage(reader, pageNo).toLowerCase();
-                pages.add(textFromPage);
+                this.pages.add(textFromPage);
             }
-            reader.close();
-            for (var page : pages) {
+        }catch (IOException e) {
+            throw new RuntimeException(new ISMException("Could not read PDF page", e));
+        }
+    }
+
+    @Override
+    public int countOccurrences(Term term) {
+        int occurances = 0;
+            for (var page : this.pages) {
                 var splits = page.split(term.value);
                 if(splits.length > 0)
                     occurances += splits.length - 1;
             }
-        }
-        catch (IOException exception) {
-            throw new ISMException("Could not read PDF page", exception);
-        }
         return occurances;
     }
 

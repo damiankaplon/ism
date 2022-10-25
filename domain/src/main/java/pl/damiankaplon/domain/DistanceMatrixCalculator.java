@@ -32,4 +32,20 @@ public final class DistanceMatrixCalculator {
         final var euklidesCalculator = new EuklidesCalculator(terms);
         return new DistanceMatrixCalculator(euklidesCalculator, documents);
     }
+
+    public static DistanceMatrixCalculator manhatan(LinkedHashSet<Document> documents, ArrayList<Term> terms) {
+        final var manhatanCalculator = new ManhatanCalculator(terms);
+        return new DistanceMatrixCalculator(manhatanCalculator, documents);
+    }
+
+    public static DistanceMatrixCalculator czebyszew(LinkedHashSet<Document> documents, ArrayList<Term> terms) {
+        final var czebyszewCalculator = new CzebyszewCalculator(terms);
+        return new DistanceMatrixCalculator(czebyszewCalculator, documents);
+    }
+
+    public static DistanceMatrixCalculator
+    euklidesZoom(LinkedHashSet<Document> documents, ArrayList<Term> terms, int pow, int sqrt) {
+        final var euklidesZoomCalc = new EuklidesZoomCalculator(terms, pow, sqrt);
+        return new DistanceMatrixCalculator(euklidesZoomCalc, documents);
+    }
 }

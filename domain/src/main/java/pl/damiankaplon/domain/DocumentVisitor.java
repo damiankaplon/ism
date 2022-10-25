@@ -1,5 +1,5 @@
 package pl.damiankaplon.domain;
 
-public interface DocumentVisitor {
+interface DocumentVisitor {
     void visit(Document document) throws ISMException;
 }
