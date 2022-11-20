@@ -2,9 +2,9 @@ package pl.damiankaplon.ism.system;
 
 import com.google.common.collect.Lists;
 import pl.damiankaplon.domain.*;
+import pl.damiankaplon.domain.clustering.ClusterizerAdapter;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 public class System {
 
@@ -32,11 +32,51 @@ public class System {
         printEuklidesZoomDistanceMatrix(documents, terms, 2, 3);
         printManhatanDistanceMatrix(documents, terms);
         printCzebyszewDistanceMatrix(documents, terms);
+        java.lang.System.out.print("\n CLUSTERS \n");
+        var clusters = ClusterizerAdapter.clusterize(documents, new HashSet<>(terms));
+        printClusters(clusters);
+        printClustersBestMatch(clusters);
         printBestMatch(documents, terms);
     }
 
+    private static void printClustersBestMatch(Map<ClusterizerAdapter.Centroid, List<ClusterizerAdapter.Record>> clusters) {
+        clusters.values().stream()
+                .filter((List<ClusterizerAdapter.Record> ls) -> ls.stream().anyMatch(record -> record.desc().equalsIgnoreCase("user vector")))
+                .findFirst()
+                .ifPresent(
+                        list -> clusters.keySet().stream()
+                        .filter(k -> clusters.get(k).equals(list))
+                        .findFirst()
+                        .ifPresent(
+                                key -> clusters.get(key).stream()
+                                .filter(record -> !record.desc().equalsIgnoreCase("user vector")).findFirst().ifPresent(rec -> java.lang.System.out.println("Best match from cluster is: " + rec.desc()))
+                        )
+                );
+    }
+
+    private static void printClusters(Map<ClusterizerAdapter.Centroid, List<ClusterizerAdapter.Record>> clusters) {
+        for (var centroid : clusters.keySet()){
+            for(var cord : centroid.coordinates().keySet()){
+                java.lang.System.out.print(cord + "(");
+                java.lang.System.out.print(centroid.coordinates().get(cord));
+                java.lang.System.out.print("), ");
+            }
+            java.lang.System.out.print("\n");
+            for (var record : clusters.get(centroid)) {
+                java.lang.System.out.print(record.desc() + " -> [");
+                for(var featureName : record.features().keySet()) {
+                    java.lang.System.out.print(featureName + ":(");
+                    java.lang.System.out.print(record.features().get(featureName));
+                    java.lang.System.out.print("), ");
+                }
+                java.lang.System.out.print("]\n");
+            }
+            java.lang.System.out.print("\n");
+        }
+    }
+
     private static void printBestMatch(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
-        java.lang.System.out.print("\n\n");
+        java.lang.System.out.print("\n");
         final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklides(documents, terms);
         final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
         for (final var distances : distancesMatrix) {
