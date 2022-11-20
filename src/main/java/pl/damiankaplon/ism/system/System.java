@@ -18,6 +18,8 @@ public class System {
                 .map(Term::new)
                 .toList()
         );
+        final var proposeVector = consoleArgsParser.pareProposeVectorValues();
+        documents.add(new MockDoc(proposeVector));
         for (final Term term : terms) {
             java.lang.System.out.printf("%-12s ->[", term.value);
             for (Document doc : documents) {
@@ -30,7 +32,30 @@ public class System {
         printEuklidesZoomDistanceMatrix(documents, terms, 2, 3);
         printManhatanDistanceMatrix(documents, terms);
         printCzebyszewDistanceMatrix(documents, terms);
+        printBestMatch(documents, terms);
     }
+
+    private static void printBestMatch(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
+        java.lang.System.out.print("\n\n");
+        final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklides(documents, terms);
+        final var distancesMatrix = euklidesDistanceMatrix.calcDistancesBetweenDocs();
+        for (final var distances : distancesMatrix) {
+            DistanceMatrixCalculator.Distances userVectorDistances;
+            if (distances.doc().getName().name().equals("User vector")) {
+                userVectorDistances = distances;
+                Document closestDoc = null;
+                for (final var doc : userVectorDistances.distancesTo().keySet()) {
+                    double distance = userVectorDistances.distancesTo().get(doc);
+                    if ((closestDoc == null || distance < userVectorDistances.distancesTo().get(closestDoc))
+                    && !doc.getName().name().equals("User vector"))
+                        closestDoc = doc;
+                }
+                java.lang.System.out.println("Best Document similarity match is: " + closestDoc.getName().name() + "\n Based on the distance to other documents counted throughout various distance algorithms");
+            }
+        }
+
+    }
+
     private static void printEuklidesDistanceMatrix(LinkedHashSet<Document> documents, ArrayList<Term> terms) throws ISMException {
         java.lang.System.out.print("\n Euklides: \n");
         final var euklidesDistanceMatrix = DistanceMatrixCalculator.euklides(documents, terms);

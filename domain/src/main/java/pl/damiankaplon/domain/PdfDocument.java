@@ -15,6 +15,7 @@ final class PdfDocument implements Document {
 
     PdfDocument(Name name, Path pdfPath) {
         this.name = name;
+        System.out.println("Loading doc: " + name.name());
         try {
             PdfReader reader = new PdfReader(pdfPath.toAbsolutePath().toString());
             for (int pageNo = 1; pageNo <= reader.getNumberOfPages(); pageNo++) {
@@ -22,7 +23,7 @@ final class PdfDocument implements Document {
                 this.pages.add(textFromPage);
             }
         }catch (IOException e) {
-            throw new RuntimeException(new ISMException("Could not read PDF page", e));
+            throw new RuntimeException(new ISMException(String.format("Could not read PDF: %s", pdfPath), e));
         }
     }
 
